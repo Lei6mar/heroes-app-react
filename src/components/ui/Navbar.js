@@ -1,59 +1,71 @@
-import React from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import React, { useContext } from "react";
+import { Link, NavLink, useHistory } from "react-router-dom";
+import { AuthContext } from "../../auth/AuthContext";
+import { types } from "../../types/types";
 
 export const Navbar = () => {
-    return (
-        <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
-            
-            <Link 
-                className="navbar-brand" 
-                to="/"
-            >
-                Asociaciones
-            </Link>
+  const {
+    user: { name }, dispatch
+  } = useContext(AuthContext);
 
-            <div className="navbar-collapse">
-                <div className="navbar-nav">
+  const history = useHistory();
+  
+  const handleLogout = () => {
+    history.replace("/login");
+    
+    dispatch({
+      type: types.logout,
+    });
+  };
 
-                    <NavLink 
-                        activeClassName="active"
-                        className="nav-item nav-link" 
-                        exact
-                        to="/marvel"
-                    >
-                        Marvel
-                    </NavLink>
+  return (
+    <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
+      <Link className="navbar-brand" to="/">
+        Asociaciones
+      </Link>
 
-                    <NavLink 
-                        activeClassName="active"
-                        className="nav-item nav-link" 
-                        exact
-                        to="/dc"
-                    >
-                        DC
-                    </NavLink>
-                    <NavLink
-                    activeClassName="active"
-                    className="nav-item nav-link" 
-                    exact
-                    to="/search">
-                      Search
-                    </NavLink>
-                </div>
-            </div>
+      <div className="navbar-collapse">
+        <div className="navbar-nav">
+          <NavLink
+            activeClassName="active"
+            className="nav-item nav-link"
+            exact
+            to="/marvel"
+          >
+            Marvel
+          </NavLink>
 
-            <div className="navbar-collapse collapse w-100 order-3 dual-collapse2">
-                <ul className="navbar-nav ml-auto">
-                    <NavLink 
-                        activeClassName="active"
-                        className="nav-item nav-link" 
-                        exact
-                        to="/login"
-                    >
-                        Logout
-                    </NavLink>
-                </ul>
-            </div>
-        </nav>
-    )
-}
+          <NavLink
+            activeClassName="active"
+            className="nav-item nav-link"
+            exact
+            to="/dc"
+          >
+            DC
+          </NavLink>
+          <NavLink
+            activeClassName="active"
+            className="nav-item nav-link"
+            exact
+            to="/search"
+          >
+            Search
+          </NavLink>
+        </div>
+      </div>
+
+      <div className="navbar-collapse collapse w-100 order-3 dual-collapse2">
+        <ul className="navbar-nav ml-auto">
+          <span className="nav-item nav-link text-info"> {name} </span>
+          <button
+            // activeClassName="active"
+            className="nav-item nav-link btn"
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
+        </ul>
+      </div>
+    </nav>
+  );
+};

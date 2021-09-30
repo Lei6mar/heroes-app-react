@@ -1,7 +1,10 @@
 import React, { useMemo } from "react";
 import { Redirect } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { heroImages } from "../../helpers/heroImages";
 import { getHeroById } from "../../selectors/getHeroById";
+
+// const heroImages = require.context("../../assets/heroes/", true);
 
 export const HeroScreen = ({ history }) => {
   const { heroeid } = useParams();
@@ -23,11 +26,13 @@ export const HeroScreen = ({ history }) => {
 
   const {  superhero, alter_ego, first_appearance, characters, publisher } =
     hero;
+
+    console.log(heroeid);
   return (
     <div className="row mt-5">
       <div className="col-4">
         <img
-          src={`../assets/heroes/${heroeid}.jpg`}
+          src={heroImages(`./${heroeid}.jpg`).default}
           alt={superhero}
           className="img-thumbnail"
         />
